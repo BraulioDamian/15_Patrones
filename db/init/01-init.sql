@@ -1,10 +1,9 @@
 ﻿SET NAMES utf8mb4;
 SET CHARACTER SET utf8mb4;
 
-CREATE SCHEMA IF NOT EXISTS dbtienda;
+-- Elimina líneas redundantes
+CREATE SCHEMA IF NOT EXISTS dbtienda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE dbtienda;
-
-ALTER DATABASE dbtienda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Tabla: area
 CREATE TABLE IF NOT EXISTS area (
@@ -31,7 +30,7 @@ CREATE TABLE IF NOT EXISTS productos (
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabla: Usuario
-CREATE TABLE IF NOT EXISTS Usuario (
+CREATE TABLE IF NOT EXISTS usuario (
     UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     NombreUsuario VARCHAR(255) UNIQUE NOT NULL,
     Contraseña VARCHAR(255) NOT NULL,
