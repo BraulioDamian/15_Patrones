@@ -1,0 +1,43 @@
+services:
+  app:
+    build: .
+    environment:
+      DISPLAY: host.docker.internal:0
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: dbtienda
+      DB_USER: root
+      DB_PASSWORD: 123456
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./logs:/app/logs  # Para guardar logs fuera del contenedor
+    # Añade estos recursos si tu aplicación es intensiva
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0.41
+    command: --skip-host-cache  # Añade esto para evitar warnings
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: dbtienda
+    ports:
+      - "3308:3306"  # Puerto host:contenedor
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysql_data:
