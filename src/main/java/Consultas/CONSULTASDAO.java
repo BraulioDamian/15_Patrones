@@ -333,7 +333,7 @@ public class CONSULTASDAO {
     }
 
     public String obtenerContraseñaTokenPorRol(String rol) {
-        String sql = "SELECT ContraseñaToken FROM usuario WHERE Rol = ? AND ContraseñaToken IS NOT NULL LIMIT 1";
+        String sql = "SELECT ContraseñaToken FROM Usuario WHERE Rol = ? AND ContraseñaToken IS NOT NULL LIMIT 1";
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, rol);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -373,7 +373,7 @@ public class CONSULTASDAO {
 
 
     public Usuario validarUsuario(String nombreUsuario, String contraseñaPlana) throws SQLException {
-        String sql = "SELECT UsuarioID, NombreUsuario, Contraseña, Rol, Email, NombreCompleto, UltimoLogin FROM usuario WHERE NombreUsuario = ?";
+        String sql = "SELECT UsuarioID, NombreUsuario, Contraseña, Rol, Email, NombreCompleto, UltimoLogin FROM Usuario WHERE NombreUsuario = ?";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, nombreUsuario);
@@ -409,7 +409,7 @@ public class CONSULTASDAO {
 
     // Método para actualizar la última hora de inicio de sesión del usuario
     public boolean updateLastLogin(int userId) {
-        String sql = "UPDATE usuario SET UltimoLogin = NOW() WHERE UsuarioID = ?";
+        String sql = "UPDATE Usuario SET UltimoLogin = NOW() WHERE UsuarioID = ?";
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
             int affectedRows = pstmt.executeUpdate();
@@ -424,7 +424,7 @@ public class CONSULTASDAO {
     //Consultas a Usuarios
     public List<Usuario> obtenerUsuariosSimplificado() throws SQLException {
         List<Usuario> listaUsuarios = new ArrayList<>();
-        String sql = "SELECT UsuarioID, NombreUsuario, Rol, Email, NombreCompleto FROM usuario"; // Asegúrate de que el nombre de la tabla y columnas sean correctos
+        String sql = "SELECT UsuarioID, NombreUsuario, Rol, Email, NombreCompleto FROM Usuario"; // Asegúrate de que el nombre de la tabla y columnas sean correctos
 
         try (PreparedStatement pstmt = con.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -444,7 +444,7 @@ public class CONSULTASDAO {
 
     public String obtenerEmailPorNombreUsuario(String nombreUsuarioBuscado) throws SQLException {
         String email = null;
-        String sql = "SELECT Email FROM usuario WHERE NombreUsuario = ?";
+        String sql = "SELECT Email FROM Usuario WHERE NombreUsuario = ?";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, nombreUsuarioBuscado);
@@ -463,7 +463,7 @@ public class CONSULTASDAO {
     // Método para actualizar los datos de un usuario
     public boolean actualizarUsuario(int usuarioId, String nombreUsuario, String contraseña, String rol, String email, String nombreCompleto) {
         // Nota que se han eliminado las partes de PreguntaSeguridad y RespuestaSeguridad
-        String query = "UPDATE usuario SET NombreUsuario = ?, Contraseña = ?, Rol = ?, Email = ?, NombreCompleto = ? WHERE UsuarioID = ?";
+        String query = "UPDATE Usuario SET NombreUsuario = ?, Contraseña = ?, Rol = ?, Email = ?, NombreCompleto = ? WHERE UsuarioID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, nombreUsuario);
             stmt.setString(2, contraseña);
@@ -483,7 +483,7 @@ public class CONSULTASDAO {
 
     // Método para eliminar un usuario
     public boolean eliminarUsuario(int usuarioId) {
-        String query = "DELETE FROM usuario WHERE UsuarioID = ?";
+        String query = "DELETE FROM Usuario WHERE UsuarioID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, usuarioId);
 
@@ -496,7 +496,7 @@ public class CONSULTASDAO {
     }
 
     public Usuario obtenerDetallesUsuario(int usuarioId) throws SQLException {
-        String query = "SELECT UsuarioID, NombreCompleto, Email, Rol, NombreUsuario FROM usuario WHERE UsuarioID = ?";
+        String query = "SELECT UsuarioID, NombreCompleto, Email, Rol, NombreUsuario FROM Usuario WHERE UsuarioID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, usuarioId);
             ResultSet rs = stmt.executeQuery();
@@ -814,7 +814,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad * d.PrecioUnitario) AS TotalVentas " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE v.FechaVenta BETWEEN ? AND ? " +
                 "GROUP BY u.NombreUsuario " +
                 "ORDER BY TotalVentas DESC";
@@ -889,7 +889,7 @@ public class CONSULTASDAO {
     // ]]cOSNULTAS PARA REPORTE
     public List<Usuario> obtenerTodosLosUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuario";
+        String sql = "SELECT * FROM Usuario";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -913,7 +913,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad * d.PrecioUnitario) AS TotalVentas " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE DATE(v.FechaVenta) = ? " +
                 "GROUP BY u.NombreUsuario";
 
@@ -937,7 +937,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad * d.PrecioUnitario) AS TotalVentas " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE v.FechaVenta BETWEEN ? AND ? " +
                 "GROUP BY u.NombreUsuario";
 
@@ -962,7 +962,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad * d.PrecioUnitario) AS TotalVentas " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE v.FechaVenta BETWEEN ? AND ? " +
                 "GROUP BY u.NombreUsuario";
 
@@ -993,7 +993,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad) AS TotalProductos " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE DATE(v.FechaVenta) = ? " +
                 "GROUP BY u.NombreUsuario";
 
@@ -1016,7 +1016,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad) AS TotalProductos " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE v.FechaVenta BETWEEN ? AND ? " +
                 "GROUP BY u.NombreUsuario";
 
@@ -1040,7 +1040,7 @@ public class CONSULTASDAO {
         String sql = "SELECT u.NombreUsuario, SUM(d.Cantidad) AS TotalProductos " +
                 "FROM ventas v " +
                 "JOIN detallesventa d ON v.VentaID = d.VentaID " +
-                "JOIN usuario u ON v.UsuarioID = u.UsuarioID " +
+                "JOIN Usuario u ON v.UsuarioID = u.UsuarioID " +
                 "WHERE v.FechaVenta BETWEEN ? AND ? " +
                 "GROUP BY u.NombreUsuario";
 
