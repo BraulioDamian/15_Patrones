@@ -72,7 +72,7 @@ public class Conexion_DB {
     }*/
 
     public static boolean validarUsuario(String usuario, String contraseña) {
-        String sql = "SELECT COUNT(*) AS count FROM Usuarios WHERE Username = ? AND PasswordHash = ?";
+        String sql = "SELECT COUNT(*) AS count FROM Usuario WHERE Username = ? AND PasswordHash = ?";
         try (Connection conn = getConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
