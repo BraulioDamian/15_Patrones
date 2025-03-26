@@ -1,22 +1,22 @@
-# Patrones de Diseño
+# ✨ Patrones de Diseño
 
 **Grupo:** 7SB  
 **Profesor:** Ing. Espinosa Pérez Jacob
 
 ---
 
-## Descripción
+## 📖 Descripción
 
 Este repositorio contiene ejemplos de implementación de diversos patrones de diseño, organizados en dos categorías principales:
 
-### Patrones Creacionales
+### 🔨 Patrones Creacionales
 - **Builder**
 - **Factory**
 - **Abstract**
-- **prototype**
+- **Prototipo**
 - **Memento**
 
-### Patrones Estructurales
+### 🏗️ Patrones Estructurales
 - **Adapter**
 - **Facade**
 - **Composite**
@@ -24,7 +24,7 @@ Este repositorio contiene ejemplos de implementación de diversos patrones de di
 
 ---
 
-## Equipo
+## 👥 Equipo
 
 - **Carlos Alberto Sosa Perera**
 - **Ríos Cruz Roberto Javier**
@@ -34,8 +34,4 @@ Este repositorio contiene ejemplos de implementación de diversos patrones de di
 - **Hernandez Velasco Luis Andrik**
 
 ---
-
-## Estructura del Proyecto
-
-Describe aquí la organización de carpetas y archivos, por ejemplo:
 
