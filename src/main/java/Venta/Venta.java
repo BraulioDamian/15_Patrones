@@ -5,6 +5,7 @@ import ConexionDB.Conexion_DB;
 import Configuraciones.Configuraciones;
 import Configuraciones.Estilos;
 import Consultas.CONSULTASDAO;
+import BDObjetos.IVenta;
 import DBObjetos.Producto;
 import DBObjetos.Usuario;
 import Graficas.AvisosFrame;
@@ -56,10 +57,12 @@ public class Venta extends JFrame {
 
     private Usuario usuarioLogueado;
     private boolean menuDesplegado = false;
+    private IVenta ventaProxy;
 
     
     private Venta() {
         setUndecorated(true); // Hacer que el JFrame sea indecorado
+        ventaProxy=(IVenta) new VentaProxy();
 
         initComponents();
         setLocationRelativeTo(null); // Centramos la ventana en la pantalla
