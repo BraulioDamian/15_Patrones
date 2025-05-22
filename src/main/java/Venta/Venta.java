@@ -5,8 +5,10 @@ import ConexionDB.Conexion_DB;
 import Configuraciones.Configuraciones;
 import Configuraciones.Estilos;
 import Consultas.CONSULTASDAO;
+import DBObjetos.IVenta;
 import DBObjetos.Producto;
 import DBObjetos.Usuario;
+import DBObjetos.VentaProxy;
 import Graficas.AvisosFrame;
 import INVENTARIO.Principal2_0;
 import INVENTARIO.AnimacionPanel;
@@ -56,10 +58,12 @@ public class Venta extends JFrame {
 
     private Usuario usuarioLogueado;
     private boolean menuDesplegado = false;
+    private IVenta ventaProxy;
 
     
     private Venta() {
         setUndecorated(true); // Hacer que el JFrame sea indecorado
+        ventaProxy=(IVenta) new VentaProxy();
 
         initComponents();
         setLocationRelativeTo(null); // Centramos la ventana en la pantalla
@@ -1221,5 +1225,6 @@ Principal2_0.getInstance().actualizarTablaInventario();
     private javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 }
+
 
 

@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DBObjetos;
 
 import java.time.LocalDate;
 
-public class Producto {
+public class Producto implements Cloneable {
     private int productoID;
     private String nombre;
     private String descripcion;
@@ -22,7 +18,6 @@ public class Producto {
     private String nombreArea;
     private int cantidad;
 
-    // Constructor privado para usar con el Builder
     private Producto(ProductoBuilder builder) {
         this.productoID = builder.productoID;
         this.nombre = builder.nombre;
@@ -40,11 +35,22 @@ public class Producto {
         this.cantidad = builder.cantidad;
     }
 
-    // Constructor vacío privado para el Builder
-    private Producto() {
+    @Override
+    public Producto clone() {
+        try {
+            return (Producto) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // No debería ocurrir
+        }
+    }
+    
+   
+    public Producto crearProductoNoEditable() {
+        Producto noEditable = this.clone();
+        // Configurar noEditable para que no se pueda modificar...
+        return noEditable;
     }
 
-    // Getters
     public int getProductoID() { return productoID; }
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
@@ -60,7 +66,7 @@ public class Producto {
     public String getNombreArea() { return nombreArea; }
     public int getCantidad() { return cantidad; }
 
-    // Setters 
+    
     public void setProductoID(int productoID) { this.productoID = productoID; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
