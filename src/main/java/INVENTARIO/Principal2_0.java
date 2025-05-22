@@ -39,6 +39,9 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
+// Importaciones para los patrones Bridge y Composite
+import PatronBridge.NotificacionBridgeGUI;
+import PatronComposite.CatalogoUI;
 
 
 /**
@@ -366,6 +369,8 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         jLabel1 = new JLabel();
         jComboCont = new javax.swing.JComboBox<>();
         MOD = new javax.swing.JToggleButton();
+        btnPatronBridge = new javax.swing.JButton();
+        btnPatronComposite = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -702,6 +707,20 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
             }
         });
 
+        btnPatronBridge.setText("Patrón Bridge");
+        btnPatronBridge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPatronBridgeActionPerformed(evt);
+            }
+        });
+
+        btnPatronComposite.setText("Patrón Composite");
+        btnPatronComposite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPatronCompositeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout Panel2Layout = new javax.swing.GroupLayout(Panel2);
         Panel2.setLayout(Panel2Layout);
         Panel2Layout.setHorizontalGroup(
@@ -713,6 +732,10 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel2Layout.createSequentialGroup()
                             .addComponent(MOD)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnPatronBridge)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnPatronComposite)
+                            .addGap(18, 18, 18)
                             .addComponent(eliminar)
                             .addGap(18, 18, 18)
                             .addComponent(modificar)
@@ -773,6 +796,8 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
                     .addComponent(add)
                     .addComponent(modificar)
                     .addComponent(eliminar)
+                    .addComponent(btnPatronComposite)
+                    .addComponent(btnPatronBridge)
                     .addComponent(MOD))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
@@ -1412,6 +1437,62 @@ private void cargarAreasDesdeBD() {
             mostrarCalendario(Caducidad);
         }
     }//GEN-LAST:event_CaducidadMouseClicked
+
+    private void PatronBridgeMouseClicked(java.awt.event.MouseEvent evt) {
+        // Abrir la interfaz gráfica del patrón Bridge
+        try {
+            NotificacionBridgeGUI bridgeGUI = new NotificacionBridgeGUI();
+            bridgeGUI.setVisible(true);
+            bridgeGUI.setLocationRelativeTo(null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al abrir la interfaz del Patrón Bridge: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    private void PatronCompositeMouseClicked(java.awt.event.MouseEvent evt) {
+        // Abrir la interfaz gráfica del patrón Composite
+        try {
+            CatalogoUI catalogoUI = new CatalogoUI();
+            catalogoUI.setVisible(true);
+            catalogoUI.setLocationRelativeTo(null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al abrir la interfaz del Patrón Composite: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    private void btnPatronBridgeActionPerformed(java.awt.event.ActionEvent evt) {
+        // Abrir la interfaz gráfica del patrón Bridge
+        try {
+            NotificacionBridgeGUI bridgeGUI = new NotificacionBridgeGUI();
+            bridgeGUI.setVisible(true);
+            bridgeGUI.setLocationRelativeTo(null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al abrir la interfaz del Patrón Bridge: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    private void btnPatronCompositeActionPerformed(java.awt.event.ActionEvent evt) {
+        // Abrir la interfaz gráfica del patrón Composite
+        try {
+            CatalogoUI catalogoUI = new CatalogoUI();
+            catalogoUI.setVisible(true);
+            catalogoUI.setLocationRelativeTo(null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al abrir la interfaz del Patrón Composite: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
     // Método para cerrar sesión
     private void logout() {
         SesionManager.getInstance().logout();
@@ -1512,6 +1593,8 @@ private void cargarAreasDesdeBD() {
     private JLabel Usuarios;
     private JLabel Ventas;
     private javax.swing.JButton add;
+    private javax.swing.JButton btnPatronBridge;
+    private javax.swing.JButton btnPatronComposite;
     private JLabel cod;
     private javax.swing.JComboBox<String> desplegable;
     private javax.swing.JButton eliminar;

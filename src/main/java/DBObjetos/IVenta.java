@@ -1,8 +1,8 @@
-package BDObjetos;
+package DBObjetos;
 
-import java.time.LocalDate.Time;
+import java.time.LocalDateTime;
 
 public interface IVenta {
-  
-  void realizarVenta (int usuarioID, LocalDateTime fechaVenta, doublé precioTotal);
+
+  void realizarVenta (int usuarioID, LocalDateTime fechaVenta, double precioTotal);
 }

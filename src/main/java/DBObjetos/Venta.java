@@ -10,18 +10,40 @@ package DBObjetos;
  */
 import java.time.LocalDateTime;
 
-public class Venta {
+public class Venta implements IVenta {
     private int ventaID;
     private int usuarioID;
     private LocalDateTime fechaVenta;
     private double precioTotal;
 
-    // Constructor
+    // Constructor principal
     public Venta(int ventaID, int usuarioID, LocalDateTime fechaVenta, double precioTotal) {
         this.ventaID = ventaID;
         this.usuarioID = usuarioID;
         this.fechaVenta = fechaVenta;
         this.precioTotal = precioTotal;
+    }
+
+    // Constructor por defecto para el Proxy
+    public Venta() {
+        this.ventaID = 0;
+        this.usuarioID = 0;
+        this.fechaVenta = LocalDateTime.now();
+        this.precioTotal = 0.0;
+    }
+
+    // Implementación del método de la interfaz IVenta
+    @Override
+    public void realizarVenta(int usuarioID, LocalDateTime fechaVenta, double precioTotal) {
+        this.usuarioID = usuarioID;
+        this.fechaVenta = fechaVenta;
+        this.precioTotal = precioTotal;
+        
+        System.out.println("Realizando venta:");
+        System.out.println("Usuario ID: " + usuarioID);
+        System.out.println("Fecha: " + fechaVenta);
+        System.out.println("Precio Total: $" + precioTotal);
+        System.out.println("Venta completada exitosamente.");
     }
 
     // Getters
@@ -69,4 +91,3 @@ public class Venta {
                 '}';
     }
 }
-
