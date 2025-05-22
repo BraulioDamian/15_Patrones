@@ -115,8 +115,15 @@ public class Producto {
         private int cantidad;
 
         public ProductoBuilder productoID(int productoID) { this.productoID = productoID; return this; }
-        public ProductoBuilder nombre(String nombre) { this.nombre = nombre; return this; }
-        public ProductoBuilder descripcion(String descripcion) { this.descripcion = descripcion; return this; }
+        public ProductoBuilder nombre(String nombre) { 
+            this.nombre = (nombre != null) ? nombre : "";
+            return this; 
+        }
+        
+        public ProductoBuilder descripcion(String descripcion) { 
+            this.descripcion = (descripcion != null) ? descripcion : "";
+            return this; 
+        }
         public ProductoBuilder areaID(int areaID) { this.areaID = areaID; return this; }
         public ProductoBuilder precio(double precio) { this.precio = precio; return this; }
         public ProductoBuilder unidadesDisponibles(int unidadesDisponibles) { this.unidadesDisponibles = unidadesDisponibles; return this; }

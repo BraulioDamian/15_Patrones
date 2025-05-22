@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS productos (
     TamañoNeto VARCHAR(255),  -- Asegúrate de que el código fuente use UTF-8
     Marca VARCHAR(255),
     Contenido VARCHAR(255),
-    FOREIGN KEY (AreaID) REFERENCES area(AreaID)
+    FOREIGN KEY (AreaID) REFERENCES area(AreaID) ON DELETE SET NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabla: Usuario

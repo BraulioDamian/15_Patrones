@@ -25,6 +25,44 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class MandarCorreos {
+    /**
+     * Envía un correo electrónico con el asunto y contenido especificados.
+     * 
+     * @param emailDestino Dirección de correo del destinatario
+     * @param asunto Asunto del correo
+     * @param contenido Contenido del correo (puede incluir formato HTML)
+     * @return true si el correo se envió correctamente, false en caso contrario
+     */
+    public boolean enviarCorreo(String emailDestino, String asunto, String contenido) {
+        try {
+            // Validar el email
+            if (emailDestino == null || emailDestino.trim().isEmpty() || !emailDestino.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                Logger.getLogger(MandarCorreos.class.getName()).log(Level.WARNING, "Dirección de correo no válida: {0}", emailDestino);
+                return false;
+            }
+            
+            // Crear un contenido HTML adecuado
+            String htmlContent = "<html><body>" + contenido.replace("\n", "<br>") + "</body></html>";
+            
+            // Enviar el correo
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(emailFrom));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailDestino));
+            message.setSubject(asunto);
+            message.setContent(htmlContent, "text/html; charset=UTF-8");
+
+            Transport transport = session.getTransport("smtp");
+            transport.connect(emailFrom, passwordFrom);
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            transport.close();
+            
+            Logger.getLogger(MandarCorreos.class.getName()).log(Level.INFO, "Correo enviado con éxito a: {0}", emailDestino);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(MandarCorreos.class.getName()).log(Level.SEVERE, "Error al enviar correo", ex);
+            return false;
+        }
+    }
     private static final String emailFrom = "brauliodamian80@gmail.com";
     private static final String passwordFrom = "xkpy qgkw zqpg akmr";
     private Properties properties;
