@@ -17,8 +17,8 @@ public class Conexion_DB {
     // Configuración para conexión local (descomentar para usar local)
     private static final String URL = "jdbc:mysql://localhost:3306/dbtienda" +
             "?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true";
-    private static final String USUARIO = "Conexion";
-    private static final String CONTRASENA = "Conexion123"; // Cambia esto según tu configuración
+    private static final String USUARIO = "root";
+    private static final String CONTRASENA = "Wizardkiller#02"; // Cambia esto según tu configuración
     
     /*
     // Configuración para conexión con variables de entorno (descomentar para usar variables)

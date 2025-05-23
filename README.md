@@ -272,6 +272,22 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {
 #### UML Facade
 ![Diagrama UML del Patrón Facade](./src/main/java/CobroFacade/Facade.png)
 
+#### Evidencia de Funcionamiento
+Debido a que es un patrón estructural no se puede mostrar a la vista, pero la implementación está unida con Observer, conteniendo toda la responsabilidad de generar el cobro y las demas funciones pertinentes.
+
+Se muestra como:
+
+`Notificando a 1 observadores sobre el meotod de pago`
+
+![Diagrama UML del Patrón State](./src/main/java/CobroFacade/Evidencia.png)
+
+En este ejemplo, se muestra con la lógica de calculo de cambio, en conjunto con observer que dispara el evento de captura de monto recibido para activar la lógica de cambio delegada al patrón facade
+
+![Diagrama UML del Patrón State](./src/main/java/CobroFacade/Evidencia2.png)
+
+Esta imagen muestra como al realizar los cambios se muestra inmediatamente el calculo realizado, sin necesidad de recargar
+
+![Diagrama UML del Patrón State](./src/main/java/CobroFacade/Evidencia3.png)
 
 ## Memento
 ### Implementación del Patrón Memento en el Sistema de Cobro
@@ -411,6 +427,16 @@ Para acceder al historial:
 
 #### UML Memento
 ![Diagrama UML del Patrón Facade](./src/main/java/VentaMemento/Memento.png)
+
+#### Evidencia de funcionamiento
+Se guarda con el botón `Guardar Estado`
+
+En ese momento la implementación del patrón memento se encarga de almacenar temporalmente el estado de la clase considerando todos los atributos.
+![Diagrama UML del Patrón Facade](./src/main/java/VentaMemento/Evidencia.png)
+
+Si borramos todos los campos o llegamos a equivocarnos, podemos restaurar la ultima versión o estado almacenado. Haciendo un refill en cada campo que se almacenó.
+
+![Diagrama UML del Patrón Facade](./src/main/java/VentaMemento/Evidencia2.png)
 
 ## Observer
 
@@ -602,6 +628,18 @@ Persistencia: Mantiene historial entre ejecuciones (append mode)
 ### Diagrama UML
 ![Diagrama UML del Patrón Observer](./src/main/java/VentaObserver/ObserverUML.png)
 
+#### Evidencia de Funcionamiento
+
+Se muestra como:
+
+`INFO: Configurando Logger`
+
+`INFO: Último login actualizado correctamente para el usuario: Wizard`
+
+![Diagrama UML del Patrón Observer](./src/main/java/VentaObserver/Evidencia.png)
+
+![Diagrama UML del Patrón Observer](./src/main/java/VentaObserver/Evidencia2.png)
+
 
 ## State
 ### Implementación del Patrón State en la Clase Cobro
@@ -718,4 +756,13 @@ Cada transición es manejada por el estado actual, manteniendo la coherencia en 
 
 ### Diagrama UML
 ![Diagrama UML del Patrón State](./src/main/java/CobroState/CobroState.png)
+
+### Evidencia de Funcionamiento
+Se muestra como notificación dentro de la terminal:
+
+`Cambio de estado a : Efectivo seleccionado`
+
+`Cambio de estado a : Monto validado`
+
+![Diagrama UML del Patrón State](./src/main/java/CobroState/Evidencia.png)
 
