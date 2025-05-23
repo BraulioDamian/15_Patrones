@@ -2,7 +2,7 @@ package DBObjetos;
 
 import java.time.LocalDate;
 
-public class Producto implements Cloneable {
+public class Producto implements Cloneable, Producto2 {
     private int productoID;
     private String nombre;
     private String descripcion;
@@ -17,6 +17,37 @@ public class Producto implements Cloneable {
     private String contenido;
     private String nombreArea;
     private int cantidad;
+    private ProductoMetadata metadata; // Estado intrínseco compartido
+
+
+    public Producto(int productoID, String nombre, double precio, int cantidad) {
+        this.productoID = productoID;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
+
+    public Producto(int productoID, String codigoBarras, String nombre, double precio, int cantidad) {
+        this.productoID = productoID;
+        this.codigoBarras = codigoBarras;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
+
+    public Producto(int productoID, ProductoMetadata metadata, int areaID, double precio,
+                   int unidadesDisponibles, int nivelReorden, LocalDate fechaCaducidad,
+                   String nombreArea, int cantidad) {
+        this.productoID = productoID;
+        this.metadata = metadata;
+        this.areaID = areaID;
+        this.precio = precio;
+        this.unidadesDisponibles = unidadesDisponibles;
+        this.nivelReorden = nivelReorden;
+        this.fechaCaducidad = fechaCaducidad;
+        this.nombreArea = nombreArea;
+        this.cantidad = cantidad;
+    }
 
     private Producto(ProductoBuilder builder) {
         this.productoID = builder.productoID;
@@ -35,6 +66,9 @@ public class Producto implements Cloneable {
         this.cantidad = builder.cantidad;
     }
 
+    private Producto() {
+    }
+
     @Override
     public Producto clone() {
         try {
@@ -51,10 +85,14 @@ public class Producto implements Cloneable {
         return noEditable;
     }
 
+    // Getters
+    @Override
     public int getProductoID() { return productoID; }
+    @Override
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
     public int getAreaID() { return areaID; }
+    @Override
     public double getPrecio() { return precio; }
     public int getUnidadesDisponibles() { return unidadesDisponibles; }
     public int getNivelReorden() { return nivelReorden; }
@@ -64,9 +102,11 @@ public class Producto implements Cloneable {
     public String getMarca() { return marca; }
     public String getContenido() { return contenido; }
     public String getNombreArea() { return nombreArea; }
+    @Override
     public int getCantidad() { return cantidad; }
 
-    
+
+    // Setters 
     public void setProductoID(int productoID) { this.productoID = productoID; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
@@ -80,9 +120,11 @@ public class Producto implements Cloneable {
     public void setMarca(String marca) { this.marca = marca; }
     public void setContenido(String contenido) { this.contenido = contenido; }
     public void setNombreArea(String nombreArea) { this.nombreArea = nombreArea; }
+    @Override
     public void setCantidad(int cantidad) { this.cantidad = cantidad; }
 
-    // toString (igual que antes)
+    // No hay setters para los campos del metadata ya que son inmutables
+
     @Override
     public String toString() {
         return "Producto{" +
@@ -103,7 +145,7 @@ public class Producto implements Cloneable {
                 '}';
     }
 
-    // Clase Builder
+    // Clase Builder modificada para usar Flyweight
     public static class ProductoBuilder {
         private int productoID;
         private String nombre;
@@ -119,17 +161,11 @@ public class Producto implements Cloneable {
         private String contenido;
         private String nombreArea;
         private int cantidad;
+        private ProductoMetadata metadata;
 
         public ProductoBuilder productoID(int productoID) { this.productoID = productoID; return this; }
-        public ProductoBuilder nombre(String nombre) { 
-            this.nombre = (nombre != null) ? nombre : "";
-            return this; 
-        }
-        
-        public ProductoBuilder descripcion(String descripcion) { 
-            this.descripcion = (descripcion != null) ? descripcion : "";
-            return this; 
-        }
+        public ProductoBuilder nombre(String nombre) { this.nombre = nombre; return this; }
+        public ProductoBuilder descripcion(String descripcion) { this.descripcion = descripcion; return this; }
         public ProductoBuilder areaID(int areaID) { this.areaID = areaID; return this; }
         public ProductoBuilder precio(double precio) { this.precio = precio; return this; }
         public ProductoBuilder unidadesDisponibles(int unidadesDisponibles) { this.unidadesDisponibles = unidadesDisponibles; return this; }
@@ -141,11 +177,15 @@ public class Producto implements Cloneable {
         public ProductoBuilder contenido(String contenido) { this.contenido = contenido; return this; }
         public ProductoBuilder nombreArea(String nombreArea) { this.nombreArea = nombreArea; return this; }
         public ProductoBuilder cantidad(int cantidad) { this.cantidad = cantidad; return this; }
+        public ProductoBuilder metadata(String nombre, String descripcion, String marca,
+                                  String contenido, String tamañoNeto, String codigoBarras) {
+        this.metadata = ProductoMetadataFactory.getMetadata(
+            nombre, descripcion, marca, contenido, tamañoNeto, codigoBarras);
+        return this;
+        }
 
         public Producto build() {
             return new Producto(this);
         }
     }
-    
-    
 }

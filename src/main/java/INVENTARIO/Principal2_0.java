@@ -39,9 +39,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
-// Importaciones para los patrones Bridge y Composite
-import PatronBridge.NotificacionBridgeGUI;
-import PatronComposite.CatalogoUI;
 
 
 /**
@@ -342,35 +339,33 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
 
         jPanel2 = new javax.swing.JPanel();
         MenuPlegable = new javax.swing.JPanel();
-        Menu = new JLabel();
-        Inicio = new JLabel();
-        Usuarios = new JLabel();
-        Configuracion = new JLabel();
-        Ventas = new JLabel();
-        Analisis = new JLabel();
-        Inventario = new JLabel();
+        Menu = new javax.swing.JLabel();
+        Inicio = new javax.swing.JLabel();
+        Usuarios = new javax.swing.JLabel();
+        Configuracion = new javax.swing.JLabel();
+        Ventas = new javax.swing.JLabel();
+        Analisis = new javax.swing.JLabel();
+        Inventario = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new JLabel();
+        jLabel3 = new javax.swing.JLabel();
         Panel2 = new javax.swing.JPanel();
-        Buscar = new JTextField();
+        Buscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablita = new javax.swing.JTable();
         desplegable = new javax.swing.JComboBox<>();
-        cod = new JLabel();
-        Nombre = new JTextField();
-        Precio = new JTextField();
-        Marca = new JTextField();
-        Caducidad = new JTextField();
-        Contenido = new JTextField();
-        Unidades = new JTextField();
+        cod = new javax.swing.JLabel();
+        Nombre = new javax.swing.JTextField();
+        Precio = new javax.swing.JTextField();
+        Marca = new javax.swing.JTextField();
+        Caducidad = new javax.swing.JTextField();
+        Contenido = new javax.swing.JTextField();
+        Unidades = new javax.swing.JTextField();
         add = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
-        jLabel1 = new JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jComboCont = new javax.swing.JComboBox<>();
         MOD = new javax.swing.JToggleButton();
-        btnPatronBridge = new javax.swing.JButton();
-        btnPatronComposite = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -382,7 +377,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        MenuPlegable.setBackground(new Color(204, 204, 204));
+        MenuPlegable.setBackground(new java.awt.Color(204, 204, 204));
         MenuPlegable.setLayout(null);
 
         Menu.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -404,7 +399,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         Menu.setBounds(0, 0, 170, 50);
 
         Inicio.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        Inicio.setForeground(new Color(255, 255, 255));
+        Inicio.setForeground(new java.awt.Color(255, 255, 255));
         Inicio.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         Inicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Inicio32px.png"))); // NOI18N
         Inicio.setText("Inicio");
@@ -421,7 +416,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         Inicio.setBounds(0, 70, 170, 50);
 
         Usuarios.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        Usuarios.setForeground(new Color(255, 255, 255));
+        Usuarios.setForeground(new java.awt.Color(255, 255, 255));
         Usuarios.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         Usuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Usuarios32px.png"))); // NOI18N
         Usuarios.setText("Usuarios");
@@ -439,7 +434,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         Usuarios.setBounds(0, 430, 170, 50);
 
         Configuracion.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        Configuracion.setForeground(new Color(255, 255, 255));
+        Configuracion.setForeground(new java.awt.Color(255, 255, 255));
         Configuracion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         Configuracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Configuraciones32px.png"))); // NOI18N
         Configuracion.setText("Configuracion");
@@ -456,7 +451,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         Configuracion.setBounds(0, 530, 170, 50);
 
         Ventas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        Ventas.setForeground(new Color(255, 255, 255));
+        Ventas.setForeground(new java.awt.Color(255, 255, 255));
         Ventas.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         Ventas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Venta32px.png"))); // NOI18N
         Ventas.setText("Venta");
@@ -476,7 +471,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         Ventas.setBounds(0, 160, 170, 50);
 
         Analisis.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        Analisis.setForeground(new Color(255, 255, 255));
+        Analisis.setForeground(new java.awt.Color(255, 255, 255));
         Analisis.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         Analisis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Graficas32px.png"))); // NOI18N
         Analisis.setText("Analisis");
@@ -493,7 +488,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         Analisis.setBounds(0, 360, 170, 50);
 
         Inventario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        Inventario.setForeground(new Color(255, 255, 255));
+        Inventario.setForeground(new java.awt.Color(255, 255, 255));
         Inventario.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         Inventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Inventario32px.png"))); // NOI18N
         Inventario.setText("Inventario");
@@ -517,9 +512,9 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
 
         jPanel2.add(MenuPlegable, new org.netbeans.lib.awtextra.AbsoluteConstraints(-120, 0, 170, 610));
 
-        jPanel3.setBackground(new Color(204, 204, 204));
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel3.setForeground(new Color(102, 102, 102));
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Nota - 0001");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -555,13 +550,13 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
                 BuscarActionPerformed(evt);
             }
         });
-        Buscar.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent evt) {
+        Buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 BuscarKeyReleased(evt);
             }
         });
 
-        tablita.setModel(new DefaultTableModel(
+        tablita.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -587,7 +582,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         });
         jScrollPane1.setViewportView(tablita);
 
-        desplegable.setModel(new DefaultComboBoxModel<>(new String[] { "Todos los Productos" }));
+        desplegable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos los Productos" }));
         desplegable.setToolTipText("");
         desplegable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -693,7 +688,7 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         jLabel1.setText("*El nombre, marca, fecha de caducidad y contenido no se puede modificar");
 
-        jComboCont.setModel(new DefaultComboBoxModel<>(new String[] { "CONTENIDO", "gr.", "kg.", "u.", "l.", "ml", " " }));
+        jComboCont.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CONTENIDO", "gr.", "kg.", "u.", "l.", "ml", " " }));
         jComboCont.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboContActionPerformed(evt);
@@ -704,20 +699,6 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
         MOD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MODActionPerformed(evt);
-            }
-        });
-
-        btnPatronBridge.setText("Patrón Bridge");
-        btnPatronBridge.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPatronBridgeActionPerformed(evt);
-            }
-        });
-
-        btnPatronComposite.setText("Patrón Composite");
-        btnPatronComposite.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPatronCompositeActionPerformed(evt);
             }
         });
 
@@ -732,10 +713,6 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel2Layout.createSequentialGroup()
                             .addComponent(MOD)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnPatronBridge)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnPatronComposite)
-                            .addGap(18, 18, 18)
                             .addComponent(eliminar)
                             .addGap(18, 18, 18)
                             .addComponent(modificar)
@@ -796,8 +773,6 @@ private void agregarFilaProducto(DefaultTableModel model, Producto prod) {
                     .addComponent(add)
                     .addComponent(modificar)
                     .addComponent(eliminar)
-                    .addComponent(btnPatronComposite)
-                    .addComponent(btnPatronBridge)
                     .addComponent(MOD))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
@@ -1437,62 +1412,6 @@ private void cargarAreasDesdeBD() {
             mostrarCalendario(Caducidad);
         }
     }//GEN-LAST:event_CaducidadMouseClicked
-
-    private void PatronBridgeMouseClicked(java.awt.event.MouseEvent evt) {
-        // Abrir la interfaz gráfica del patrón Bridge
-        try {
-            NotificacionBridgeGUI bridgeGUI = new NotificacionBridgeGUI();
-            bridgeGUI.setVisible(true);
-            bridgeGUI.setLocationRelativeTo(null);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al abrir la interfaz del Patrón Bridge: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    private void PatronCompositeMouseClicked(java.awt.event.MouseEvent evt) {
-        // Abrir la interfaz gráfica del patrón Composite
-        try {
-            CatalogoUI catalogoUI = new CatalogoUI();
-            catalogoUI.setVisible(true);
-            catalogoUI.setLocationRelativeTo(null);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al abrir la interfaz del Patrón Composite: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    private void btnPatronBridgeActionPerformed(java.awt.event.ActionEvent evt) {
-        // Abrir la interfaz gráfica del patrón Bridge
-        try {
-            NotificacionBridgeGUI bridgeGUI = new NotificacionBridgeGUI();
-            bridgeGUI.setVisible(true);
-            bridgeGUI.setLocationRelativeTo(null);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al abrir la interfaz del Patrón Bridge: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    private void btnPatronCompositeActionPerformed(java.awt.event.ActionEvent evt) {
-        // Abrir la interfaz gráfica del patrón Composite
-        try {
-            CatalogoUI catalogoUI = new CatalogoUI();
-            catalogoUI.setVisible(true);
-            catalogoUI.setLocationRelativeTo(null);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al abrir la interfaz del Patrón Composite: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
     // Método para cerrar sesión
     private void logout() {
         SesionManager.getInstance().logout();
@@ -1575,32 +1494,30 @@ private void cargarAreasDesdeBD() {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JLabel Analisis;
-    private JTextField Buscar;
-    private JTextField Caducidad;
-    private JLabel Configuracion;
-    private JTextField Contenido;
-    private JLabel Inicio;
-    private JLabel Inventario;
+    private javax.swing.JLabel Analisis;
+    private javax.swing.JTextField Buscar;
+    private javax.swing.JTextField Caducidad;
+    private javax.swing.JLabel Configuracion;
+    private javax.swing.JTextField Contenido;
+    private javax.swing.JLabel Inicio;
+    private javax.swing.JLabel Inventario;
     private javax.swing.JToggleButton MOD;
-    private JTextField Marca;
-    private JLabel Menu;
+    private javax.swing.JTextField Marca;
+    private javax.swing.JLabel Menu;
     private javax.swing.JPanel MenuPlegable;
-    private JTextField Nombre;
+    private javax.swing.JTextField Nombre;
     private javax.swing.JPanel Panel2;
-    private JTextField Precio;
-    private JTextField Unidades;
-    private JLabel Usuarios;
-    private JLabel Ventas;
+    private javax.swing.JTextField Precio;
+    private javax.swing.JTextField Unidades;
+    private javax.swing.JLabel Usuarios;
+    private javax.swing.JLabel Ventas;
     private javax.swing.JButton add;
-    private javax.swing.JButton btnPatronBridge;
-    private javax.swing.JButton btnPatronComposite;
-    private JLabel cod;
+    private javax.swing.JLabel cod;
     private javax.swing.JComboBox<String> desplegable;
     private javax.swing.JButton eliminar;
     private javax.swing.JComboBox<String> jComboCont;
-    private JLabel jLabel1;
-    private JLabel jLabel3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
