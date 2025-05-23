@@ -1386,6 +1386,27 @@ classDiagram
 - **Compuestos**: Categorías de productos que pueden contener subcategorías y productos
 - **Hojas**: Productos individuales del inventario
 - **Beneficio**: Organización jerárquica del inventario con operaciones uniformes
+- 
+
+
+
+#Patron de Diseño
+##Prototype
+###Desarrollo
+![Captura de pantalla 2025-05-23 073915](https://github.com/user-attachments/assets/6a4e74e9-843a-4d4e-8960-a40b66d86bf3)
+En la clase Objeto se implementa la extencion clonable, esto a resumen creara una copia de los objetos.
+En este caso el clonable sera el que se pueda modificar mientras que el original se guardar, esto con el fin de que si un producto posee la mayoria de caracteristicas que otro, se evita estar
+creando otro poducto maximisando la eficiencia.
+![Captura de pantalla 2025-05-23 073418](https://github.com/user-attachments/assets/98f14e5e-468d-4606-9c95-43eb03a1580f)
+![Captura de pantalla 2025-05-23 073845](https://github.com/user-attachments/assets/93f7eae9-5d82-4552-ac7e-144a95c25595)
+
+#Patron De Diseño
+##Proxy
+##Desarrollo
+![image](https://github.com/user-attachments/assets/4894527e-5830-47ac-b364-6ddd9b2bb312)
+El patron de dieño proxy, lo que hace basicamente es crear un intermidario (o verificador), entre clases y acciones, para que usurios sin autorizacion no puedan modificar
+mejorando asi la seguridad y eficiencia de los roles en el progrma.
+![Captura de pantalla 2025-05-23 073617](https://github.com/user-attachments/assets/e5b2ad7e-8f80-4304-b267-a092c67e09dc)
 
 
 
