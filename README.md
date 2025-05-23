@@ -766,3 +766,392 @@ Se muestra como notificación dentro de la terminal:
 
 ![Diagrama UML del Patrón State](./src/main/java/CobroState/Evidencia.png)
 
+# Patrón Adapter
+
+## Estructura del Patrón Adapter
+
+Se implementó el patrón Adapter para desacoplar la lógica de envío de tickets de las implementaciones concretas (correo/WhatsApp).
+
+### Componentes clave:
+
+#### Interfaz ServicioEnvio
+Define el contrato para enviar mensajes.
+
+```java
+public interface ServicioEnvio {
+    void enviar(String destinatario, String asunto, String contenido, String rutaArchivo);
+}
+```
+
+#### Adaptadores:
+- **MandarCorreosAdapter**: Adapta la clase existente MandarCorreos.
+- **WhatsAppAdapter**: Integra Twilio para enviar mensajes por WhatsApp.
+
+## Implementación de los Adaptadores
+
+### MandarCorreosAdapter.java
+
+```java
+public class MandarCorreosAdapter implements ServicioEnvio {
+    private MandarCorreos mandarCorreos = new MandarCorreos();
+    
+    @Override
+    public void enviar(String emailDestino, String asunto, String contenido, String pdfPath) {
+        mandarCorreos.enviarArchivo(emailDestino, asunto, contenido, pdfPath);
+    }
+}
+```
+![image](https://github.com/user-attachments/assets/c537fe62-4dd7-429f-a208-000f2dd9d683)
+
+
+### WhatsAppAdapter.java (con Twilio)
+
+```java
+public class WhatsAppAdapter implements ServicioEnvio {
+    private static final String ACCOUNT_SID = "ACXXXXXXXXXXXXXXXX"; // Credenciales de Twilio
+    private static final String AUTH_TOKEN = "tu_auth_token";
+    private static final String TWILIO_NUMBER = "whatsapp:+14155238886"; // Número Sandbox
+    
+    static {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN); // Inicialización única
+    }
+    
+    @Override
+    public void enviar(String numero, String asunto, String contenido, String rutaArchivo) {
+        PhoneNumber to = new PhoneNumber("whatsapp:" + numero);
+        Message.creator(to, new PhoneNumber(TWILIO_NUMBER), contenido).create();
+    }
+}
+```
+![image](https://github.com/user-attachments/assets/8b14986d-70de-4279-b068-28c49c45e917)
+
+## Modificaciones en Cobro.java
+
+- **Inyección de dependencia**: Se añadió un campo ServicioEnvio para usar cualquier adaptador.
+- **Selector de método de envío**: Opcionalmente, se puede agregar un JComboBox para elegir entre correo/WhatsApp.
+
+```java
+public class Cobro extends JFrame {
+    private ServicioEnvio servicioEnvio;
+    
+    // Constructor modificado
+    public Cobro(double total, List<Producto> productos, ServicioEnvio servicioEnvio) {
+        this.servicioEnvio = servicioEnvio;
+        // ... (código existente)
+    }
+    
+    // Uso del servicio en el botón "Aceptar"
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {
+        servicioEnvio.enviar(destinatario, "Ticket", "Detalles del ticket", pdfPath);
+    }
+}
+```
+
+## Uso en Venta.java
+
+Al crear la ventana Cobro, se elige el adaptador deseado:
+
+```java
+// Envío por correo
+ServicioEnvio servicioCorreo = new MandarCorreosAdapter();
+Cobro cobroCorreo = new Cobro(total, productos, servicioCorreo);
+
+// Envío por WhatsApp
+ServicioEnvio servicioWhatsApp = new WhatsAppAdapter();
+Cobro cobroWhatsApp = new Cobro(total, productos, servicioWhatsApp);
+```
+
+## Diagrama UML
+
+![Diagrama UML del patrón Adapter](https://github.com/user-attachments/assets/9e161215-2f89-4a1d-b63a-3400eafb6740)
+
+# Patrón Builder en las Clases Producto y Usuario
+
+## Participantes
+- **Builder**: `ProductoBuilder`, `UsuarioBuilder`.
+- **Productos Construidos**: `Producto`, `Usuario`.
+
+## Finalidad
+- Simplificar la creación de objetos complejos con múltiples atributos.
+- Permitir configuraciones flexibles (ejemplo: omitir `fechaCaducidad` si no aplica).
+
+## Mejoras Clave
+1. **Reducción de Errores**: Evita parámetros incorrectos en constructores largos.
+2. **Código Más Limpio**: Métodos como `.precio(20.5)` son autoexplicativos.
+3. **Validaciones Centralizadas**: Reglas de negocio en un solo lugar (`build()`).
+
+![image](https://github.com/user-attachments/assets/689f97bd-3e87-4397-bd79-daa72c9019d2)
+![image](https://github.com/user-attachments/assets/a9ab2504-bc9f-42d4-9fdd-84ba5e418d9c)
+
+
+## UML
+![Editor _ Mermaid Chart-2025-04-03-020625](https://github.com/user-attachments/assets/83972e1d-460c-435c-b946-904c2a4c9526)
+
+
+## Ejemplo de Uso en el Proyecto
+```java
+// Crear un producto con Builder
+Producto producto = Producto.builder()
+    .nombre("Arroz")
+    .precio(18.5)
+    .marca("Sello Rojo")
+    .build();![Uploading Editor _ Mermaid Chart-2025-04-03-020709.svg…]()
+
+
+// Crear un usuario administrador
+Usuario usuario = Usuario.builder()
+    .nombreUsuario("braulio")
+    .email("braulio@tienda.com")
+    .rol(Usuario.Rol.GERENTE)
+    .build();
+```
+
+## Implementación del Patrón Chain of Responsibility en el Módulo de Notificaciones
+Objetivo
+Refactorizar el sistema de notificaciones (correo electrónico y WhatsApp) utilizando el patrón Chain of Responsibility (CoR) para:
+
+Desacoplar los canales de notificación.
+Garantizar que solo un canal procese la solicitud (a menos que falle).
+Facilitar la adición de nuevos canales en el futuro.
+
+Cambios Realizados
+1. Estructura de Archivos
+Se creó un nuevo paquete Venta.notificaciones con las clases:
+└── main/
+    └── java/
+        └── Venta/
+            ├── notificaciones/
+            │   ├── NotificacionHandler.java   # Handler abstracto
+            │   ├── CorreoHandler.java         # Handler para correo
+            │   ├── WhatsAppHandler.java       # Handler para WhatsApp
+            │   └── NotificacionChain.java     # Constructor de la cadena
+            └── Cobro.java                     # Cliente que usa la cadena
+
+
+3. Clases Clave
+NotificacionHandler.java
+javaCopiarpublic abstract class NotificacionHandler {
+    private NotificacionHandler next;
+    
+    public NotificacionHandler setNext(NotificacionHandler next) {
+        this.next = next;
+        return next;
+    }
+
+    public void handleRequest(String destinatario, String asunto, String contenido, String archivo) {
+        if (next != null) next.handleRequest(destinatario, asunto, contenido, archivo);
+    }
+}
+CorreoHandler.java y WhatsAppHandler.java
+
+Lógica: Intentan enviar la notificación. Si fallan, pasan al siguiente handler.
+Cambio crítico: No llaman a super.handleRequest() si tienen éxito.
+
+NotificacionChain.java
+javaCopiarpublic class NotificacionChain {
+    private NotificacionHandler chain;
+
+    public NotificacionChain() {
+        buildChain();
+    }
+
+    private void buildChain() {
+        this.chain = new CorreoHandler();
+        chain.setNext(new WhatsAppHandler()); // Encadenamiento
+    }
+
+    public void enviarNotificacion(String destinatario, String asunto, String contenido, String archivo) {
+        chain.handleRequest(destinatario, asunto, contenido, archivo);
+    }
+}
+![image](https://github.com/user-attachments/assets/69f3e3c6-8568-4635-96ed-b1fa1992ef18)
+
+3. Modificaciones en Cobro.java
+
+Se eliminó la inyección directa de ServicioEnvio.
+Se integró la cadena de notificaciones:
+
+javaCopiarNotificacionChain notificacionChain = new NotificacionChain();
+notificacionChain.enviarNotificacion(emailDestino, "Su Ticket", "Detalles", pdfPath);
+UML 
+![Screenshot 2025-04-06 174800](https://github.com/user-attachments/assets/63b52f7c-80ba-4cc9-b1c1-636ad7b1e023)
+
+Beneficios Obtenidos
+
+Flexibilidad: Añadir un nuevo canal (ej: SMS) requiere solo crear un nuevo Handler.
+Mantenibilidad: Cada handler tiene una única responsabilidad.
+Tolerancia a fallos: Si un canal falla, se intenta el siguiente automáticamente.
+
+Pruebas Realizadas
+EscenarioResultado EsperadoCorreo exitosoSolo envía correo. No ejecuta WhatsApp.Correo fallaIntenta WhatsApp. Si funciona, se detiene.Ambos fallanEjecuta FallbackHandler (si existe).
+
+
+# Patrón Mediador
+
+## Descripción
+El patrón Mediador es un patrón de comportamiento que define un objeto que encapsula cómo un conjunto de objetos interactúan entre sí. El Mediador promueve el acoplamiento débil al evitar que los objetos se refieran explícitamente entre ellos y permite variar sus interacciones de forma independiente.
+
+## Problema
+En nuestra aplicación de gestión de tienda, tenemos varios módulos (inventario, ventas, usuarios, configuraciones, etc.) que necesitan comunicarse entre sí. Sin un mediador, cada componente tendría que conocer a los demás componentes para poder interactuar con ellos, lo que resultaría en:
+
+1. Un alto acoplamiento entre componentes
+2. Código difícil de mantener y modificar
+3. Dificultad para añadir nuevos componentes o funcionalidades
+
+## Solución
+El patrón Mediador resuelve estos problemas centralizando la comunicación entre componentes. En lugar de que cada componente se comunique directamente con otros, todos se comunican a través de un mediador central.
+
+## Estructura del Patrón
+
+![Diagrama de clases](https://raw.githubusercontent.com/BraulioDamian/15_Patrones/refs/heads/main/src/main/java/Mediator/mediator.png?token=GHSAT0AAAAAADD6O3YNN65ZMQ5X7X6KVVO62BQRF3A)
+
+## Ventajas
+
+1. **Reduce el acoplamiento**: Los componentes solo conocen al mediador, no a otros componentes.
+2. **Centraliza el control**: Las interacciones están concentradas en un solo lugar.
+3. **Simplifica la comunicación**: Los componentes no necesitan implementar lógica compleja para comunicarse con otros.
+4. **Facilita la extensibilidad**: Es más fácil añadir nuevos componentes al sistema.
+
+## Implementación en nuestra aplicación
+
+En nuestra implementación:
+
+1. La interfaz `Mediador` define los métodos para la comunicación entre componentes.
+2. `MediadorConcreto` implementa la lógica de mediación.
+3. La interfaz `Componente` define cómo los componentes interactúan con el mediador.
+4. Clases como `ComponenteInventario` y `ComponenteVenta` implementan la interfaz Componente.
+
+## Eventos del sistema
+
+Los componentes pueden comunicarse a través de estos eventos:
+
+- `ACTUALIZAR_INVENTARIO`: Notifica sobre cambios en el inventario.
+- `NUEVA_VENTA`: Notifica cuando se realiza una venta.
+- `ACTUALIZAR_USUARIO`: Notifica sobre cambios en los usuarios.
+- `CAMBIO_CONFIGURACION`: Notifica sobre cambios en la configuración.
+
+## Ejemplo de uso
+
+Para utilizar el mediador en el código existente:
+
+```java
+// Inicializar el mediador
+MediadorConcreto mediador = MediadorConcreto.getInstance();
+
+// Crear componentes
+ComponenteInventario inventario = new ComponenteInventario("Principal");
+ComponenteVenta venta = new ComponenteVenta("Principal");
+
+// Registrar componentes con el mediador
+mediador.registrarComponente(inventario);
+mediador.registrarComponente(venta);
+
+// Navegar entre pantallas
+mediador.iniciarPantalla("INVENTARIO", usuarioActual);
+```
+
+
+## Ejemplo de ejecucion
+
+![Ejemplo ejecucion 1](https://raw.githubusercontent.com/BraulioDamian/15_Patrones/refs/heads/main/src/main/java/Mediator/mediator1.png?token=GHSAT0AAAAAADD6O3YNGIETUTXPGUKSPF3I2BQRC4A)
+
+![Ejemplo ejecucion 2](https://raw.githubusercontent.com/BraulioDamian/15_Patrones/refs/heads/main/src/main/java/Mediator/mediator2.png?token=GHSAT0AAAAAADD6O3YN6AP4JRR5LTHFG5342BQRDYQ)
+
+
+## Conclusión
+
+El patrón Mediador nos ayuda a mejorar la organización y mantenibilidad de nuestra aplicación de gestión de tienda, facilitando la comunicación entre componentes de manera desacoplada y centralizada.
+
+# Abstract Factory 
+
+## Introducción
+
+El patrón Abstract Factory (Fábrica Abstracta) es un patrón de diseño creacional que proporciona una interfaz para crear familias de objetos relacionados o dependientes sin especificar sus clases concretas. En otras palabras, este patrón permite la creación de objetos donde la decisión sobre qué tipo concreto de objeto crear se delega a subclases específicas.
+
+## Diagrama UML
+
+![Ejemplo ejecucion 2](./mediator2.png)
+
+## Implementación en el Proyecto
+
+En este proyecto, el patrón Abstract Factory se utiliza para crear diferentes tipos de productos (perecederos y no perecederos) de manera uniforme a través de una interfaz común.
+
+### Componentes Principales
+
+1. **ProductoFactory (Abstract Factory)**: 
+   - Define una interfaz abstracta para crear productos.
+   - Proporciona un método de fábrica estático `getFactory` que devuelve la fábrica concreta adecuada.
+   - Declara el método abstracto `crearProducto` que deben implementar las fábricas concretas.
+
+2. **ProductoPerecederoFactory (Concrete Factory)**:
+   - Implementa `crearProducto` para crear productos perecederos con una fecha de caducidad.
+   - Incluye un método extendido que permite especificar más detalles específicos.
+
+3. **ProductoNoPerecederoFactory (Concrete Factory)**:
+   - Implementa `crearProducto` para crear productos no perecederos sin fecha de caducidad.
+   - Incluye un método extendido para detalles adicionales.
+
+4. **Producto (Product)**:
+   - Representa el producto creado por las fábricas.
+   - Utiliza el patrón Builder para una construcción flexible.
+
+### Flujo de Trabajo
+
+1. El cliente solicita una fábrica específica usando `ProductoFactory.getFactory("tipoProducto")`.
+2. La fábrica concreta se utiliza para crear instancias de productos con características específicas.
+3. Los productos se crean con configuraciones diferentes según el tipo de fábrica.
+
+## Ventajas del Patrón Abstract Factory en este Proyecto
+
+### 1. Centralización de la Creación de Objetos
+
+La creación de productos está centralizada en las clases de fábrica, lo que permite controlar el proceso de creación desde un solo punto. Esto facilita la gestión y mantenimiento del código, especialmente cuando se trata de un sistema de inventario donde pueden existir diversos tipos de productos.
+
+### 2. Encapsulamiento de la Lógica de Creación
+
+La lógica para crear diferentes tipos de productos está encapsulada en sus respectivas fábricas. Por ejemplo, la lógica para asignar una fecha de caducidad predeterminada a productos perecederos está contenida dentro de `ProductoPerecederoFactory`, lo que facilita la modificación de esta lógica sin afectar al resto del sistema.
+
+### 3. Flexibilidad y Extensibilidad
+
+El diseño permite agregar fácilmente nuevos tipos de productos sin modificar el código existente. Si en el futuro se necesita un nuevo tipo de producto (por ejemplo, "ProductoRefrigerado"), solo se necesita:
+- Crear una nueva subclase de `ProductoFactory`
+- Actualizar el método `getFactory` para incluir el nuevo tipo
+
+### 4. Consistencia en la Creación de Objetos
+
+Garantiza que los productos creados sigan siempre un patrón consistente. Los productos perecederos siempre tendrán una fecha de caducidad, mientras que los no perecederos nunca la tendrán, evitando errores de configuración.
+
+### 5. Facilita el Testing
+
+La separación clara de responsabilidades facilita las pruebas unitarias. Se pueden probar las fábricas de manera aislada, como se muestra en la clase `Main` creada para este propósito.
+
+### 6. Integración con el Patrón Builder
+
+El proyecto combina eficazmente Abstract Factory con el patrón Builder, lo que proporciona una flexibilidad adicional en la configuración de los objetos producidos.
+
+## Utilidad en el Contexto del Proyecto
+
+En un sistema de gestión de inventario (que parece ser el objetivo de este proyecto), la aplicación del patrón Abstract Factory es particularmente útil por las siguientes razones:
+
+### 1. Diversidad de Productos
+
+Un sistema de inventario maneja diferentes tipos de productos con características distintas. Los productos perecederos requieren seguimiento de fechas de caducidad, mientras que los no perecederos tienen otras consideraciones. El patrón facilita la gestión de esta diversidad.
+
+### 2. Reglas de Negocio Específicas
+
+Cada tipo de producto puede tener reglas de negocio específicas. Por ejemplo, los productos perecederos automáticamente reciben una fecha de caducidad predeterminada. Estas reglas se encapsulan en las fábricas concretas.
+
+### 3. Mantenimiento Simplificado
+
+Cuando las reglas de negocio cambian (por ejemplo, si cambia el período predeterminado de caducidad), solo es necesario modificar la fábrica concreta correspondiente, sin afectar al resto del sistema.
+
+### 4. Interfaz Unificada
+
+Proporciona una interfaz unificada para la creación de productos, lo que simplifica el código cliente. El código que necesita crear productos no necesita conocer los detalles específicos de cada tipo.
+
+## Conclusión
+
+La implementación del patrón Abstract Factory en este proyecto proporciona una solución elegante y extensible para la creación de diferentes tipos de productos. Combinado con el patrón Builder, ofrece una gran flexibilidad mientras mantiene la simplicidad en el uso.
+
+Este diseño facilita la evolución del sistema a medida que surgen nuevos requisitos, permitiendo que el código sea más mantenible y menos propenso a errores relacionados con la creación y configuración de objetos.
+
