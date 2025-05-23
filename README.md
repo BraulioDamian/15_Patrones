@@ -719,3 +719,214 @@ Cada transición es manejada por el estado actual, manteniendo la coherencia en 
 ### Diagrama UML
 ![Diagrama UML del Patrón State](./src/main/java/CobroState/CobroState.png)
 
+# Patrón Adapter - Documentación
+
+## Estructura del Patrón Adapter
+
+Se implementó el patrón Adapter para desacoplar la lógica de envío de tickets de las implementaciones concretas (correo/WhatsApp).
+
+### Componentes clave:
+
+#### Interfaz ServicioEnvio
+Define el contrato para enviar mensajes.
+
+```java
+public interface ServicioEnvio {
+    void enviar(String destinatario, String asunto, String contenido, String rutaArchivo);
+}
+```
+
+#### Adaptadores:
+- **MandarCorreosAdapter**: Adapta la clase existente MandarCorreos.
+- **WhatsAppAdapter**: Integra Twilio para enviar mensajes por WhatsApp.
+
+## Implementación de los Adaptadores
+
+### MandarCorreosAdapter.java
+
+```java
+public class MandarCorreosAdapter implements ServicioEnvio {
+    private MandarCorreos mandarCorreos = new MandarCorreos();
+    
+    @Override
+    public void enviar(String emailDestino, String asunto, String contenido, String pdfPath) {
+        mandarCorreos.enviarArchivo(emailDestino, asunto, contenido, pdfPath);
+    }
+}
+```
+
+### WhatsAppAdapter.java (con Twilio)
+
+```java
+public class WhatsAppAdapter implements ServicioEnvio {
+    private static final String ACCOUNT_SID = "ACXXXXXXXXXXXXXXXX"; // Credenciales de Twilio
+    private static final String AUTH_TOKEN = "tu_auth_token";
+    private static final String TWILIO_NUMBER = "whatsapp:+14155238886"; // Número Sandbox
+    
+    static {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN); // Inicialización única
+    }
+    
+    @Override
+    public void enviar(String numero, String asunto, String contenido, String rutaArchivo) {
+        PhoneNumber to = new PhoneNumber("whatsapp:" + numero);
+        Message.creator(to, new PhoneNumber(TWILIO_NUMBER), contenido).create();
+    }
+}
+```
+
+## Modificaciones en Cobro.java
+
+- **Inyección de dependencia**: Se añadió un campo ServicioEnvio para usar cualquier adaptador.
+- **Selector de método de envío**: Opcionalmente, se puede agregar un JComboBox para elegir entre correo/WhatsApp.
+
+```java
+public class Cobro extends JFrame {
+    private ServicioEnvio servicioEnvio;
+    
+    // Constructor modificado
+    public Cobro(double total, List<Producto> productos, ServicioEnvio servicioEnvio) {
+        this.servicioEnvio = servicioEnvio;
+        // ... (código existente)
+    }
+    
+    // Uso del servicio en el botón "Aceptar"
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {
+        servicioEnvio.enviar(destinatario, "Ticket", "Detalles del ticket", pdfPath);
+    }
+}
+```
+
+## Uso en Venta.java
+
+Al crear la ventana Cobro, se elige el adaptador deseado:
+
+```java
+// Envío por correo
+ServicioEnvio servicioCorreo = new MandarCorreosAdapter();
+Cobro cobroCorreo = new Cobro(total, productos, servicioCorreo);
+
+// Envío por WhatsApp
+ServicioEnvio servicioWhatsApp = new WhatsAppAdapter();
+Cobro cobroWhatsApp = new Cobro(total, productos, servicioWhatsApp);
+```
+
+## Diagrama UML
+
+![Diagrama UML del patrón Adapter](https://github.com/user-attachments/assets/9e161215-2f89-4a1d-b63a-3400eafb6740)
+
+# Patrón Builder en las Clases Producto y Usuario
+
+## Participantes
+- **Builder**: `ProductoBuilder`, `UsuarioBuilder`.
+- **Productos Construidos**: `Producto`, `Usuario`.
+
+## Finalidad
+- Simplificar la creación de objetos complejos con múltiples atributos.
+- Permitir configuraciones flexibles (ejemplo: omitir `fechaCaducidad` si no aplica).
+
+## Mejoras Clave
+1. **Reducción de Errores**: Evita parámetros incorrectos en constructores largos.
+2. **Código Más Limpio**: Métodos como `.precio(20.5)` son autoexplicativos.
+3. **Validaciones Centralizadas**: Reglas de negocio en un solo lugar (`build()`).
+
+## UML
+![Editor _ Mermaid Chart-2025-04-03-020625](https://github.com/user-attachments/assets/83972e1d-460c-435c-b946-904c2a4c9526)
+
+
+## Ejemplo de Uso en el Proyecto
+```java
+// Crear un producto con Builder
+Producto producto = Producto.builder()
+    .nombre("Arroz")
+    .precio(18.5)
+    .marca("Sello Rojo")
+    .build();![Uploading Editor _ Mermaid Chart-2025-04-03-020709.svg…]()
+
+
+// Crear un usuario administrador
+Usuario usuario = Usuario.builder()
+    .nombreUsuario("braulio")
+    .email("braulio@tienda.com")
+    .rol(Usuario.Rol.GERENTE)
+    .build();
+```
+
+## Implementación del Patrón Chain of Responsibility en el Módulo de Notificaciones
+Objetivo
+Refactorizar el sistema de notificaciones (correo electrónico y WhatsApp) utilizando el patrón Chain of Responsibility (CoR) para:
+
+Desacoplar los canales de notificación.
+Garantizar que solo un canal procese la solicitud (a menos que falle).
+Facilitar la adición de nuevos canales en el futuro.
+
+Cambios Realizados
+1. Estructura de Archivos
+Se creó un nuevo paquete Venta.notificaciones con las clases:
+└── main/
+    └── java/
+        └── Venta/
+            ├── notificaciones/
+            │   ├── NotificacionHandler.java   # Handler abstracto
+            │   ├── CorreoHandler.java         # Handler para correo
+            │   ├── WhatsAppHandler.java       # Handler para WhatsApp
+            │   └── NotificacionChain.java     # Constructor de la cadena
+            └── Cobro.java                     # Cliente que usa la cadena
+
+
+3. Clases Clave
+NotificacionHandler.java
+javaCopiarpublic abstract class NotificacionHandler {
+    private NotificacionHandler next;
+    
+    public NotificacionHandler setNext(NotificacionHandler next) {
+        this.next = next;
+        return next;
+    }
+
+    public void handleRequest(String destinatario, String asunto, String contenido, String archivo) {
+        if (next != null) next.handleRequest(destinatario, asunto, contenido, archivo);
+    }
+}
+CorreoHandler.java y WhatsAppHandler.java
+
+Lógica: Intentan enviar la notificación. Si fallan, pasan al siguiente handler.
+Cambio crítico: No llaman a super.handleRequest() si tienen éxito.
+
+NotificacionChain.java
+javaCopiarpublic class NotificacionChain {
+    private NotificacionHandler chain;
+
+    public NotificacionChain() {
+        buildChain();
+    }
+
+    private void buildChain() {
+        this.chain = new CorreoHandler();
+        chain.setNext(new WhatsAppHandler()); // Encadenamiento
+    }
+
+    public void enviarNotificacion(String destinatario, String asunto, String contenido, String archivo) {
+        chain.handleRequest(destinatario, asunto, contenido, archivo);
+    }
+}
+3. Modificaciones en Cobro.java
+
+Se eliminó la inyección directa de ServicioEnvio.
+Se integró la cadena de notificaciones:
+
+javaCopiarNotificacionChain notificacionChain = new NotificacionChain();
+notificacionChain.enviarNotificacion(emailDestino, "Su Ticket", "Detalles", pdfPath);
+UML 
+![Screenshot 2025-04-06 174800](https://github.com/user-attachments/assets/63b52f7c-80ba-4cc9-b1c1-636ad7b1e023)
+
+Beneficios Obtenidos
+
+Flexibilidad: Añadir un nuevo canal (ej: SMS) requiere solo crear un nuevo Handler.
+Mantenibilidad: Cada handler tiene una única responsabilidad.
+Tolerancia a fallos: Si un canal falla, se intenta el siguiente automáticamente.
+
+Pruebas Realizadas
+EscenarioResultado EsperadoCorreo exitosoSolo envía correo. No ejecuta WhatsApp.Correo fallaIntenta WhatsApp. Si funciona, se detiene.Ambos fallanEjecuta FallbackHandler (si existe).
+
+
