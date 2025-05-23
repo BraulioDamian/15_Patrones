@@ -997,9 +997,9 @@ mediador.iniciarPantalla("INVENTARIO", usuarioActual);
 
 ## Ejemplo de ejecucion
 
-![Ejemplo ejecucion 1](./mediator1.png)
+![Ejemplo ejecucion 1](https://raw.githubusercontent.com/BraulioDamian/15_Patrones/refs/heads/main/src/main/java/Mediator/mediator1.png?token=GHSAT0AAAAAADD6O3YNGIETUTXPGUKSPF3I2BQRC4A)
 
-![Ejemplo ejecucion 2](./mediator2.png)
+![Ejemplo ejecucion 2](https://raw.githubusercontent.com/BraulioDamian/15_Patrones/refs/heads/main/src/main/java/Mediator/mediator2.png?token=GHSAT0AAAAAADD6O3YN6AP4JRR5LTHFG5342BQRDYQ)
 
 
 ## Conclusión
