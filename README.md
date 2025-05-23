@@ -719,7 +719,7 @@ Cada transición es manejada por el estado actual, manteniendo la coherencia en 
 ### Diagrama UML
 ![Diagrama UML del Patrón State](./src/main/java/CobroState/CobroState.png)
 
-# Patrón Adapter - Documentación
+# Patrón Adapter
 
 ## Estructura del Patrón Adapter
 
@@ -754,6 +754,8 @@ public class MandarCorreosAdapter implements ServicioEnvio {
     }
 }
 ```
+![image](https://github.com/user-attachments/assets/c537fe62-4dd7-429f-a208-000f2dd9d683)
+
 
 ### WhatsAppAdapter.java (con Twilio)
 
@@ -774,6 +776,7 @@ public class WhatsAppAdapter implements ServicioEnvio {
     }
 }
 ```
+![image](https://github.com/user-attachments/assets/8b14986d-70de-4279-b068-28c49c45e917)
 
 ## Modificaciones en Cobro.java
 
@@ -829,6 +832,10 @@ Cobro cobroWhatsApp = new Cobro(total, productos, servicioWhatsApp);
 1. **Reducción de Errores**: Evita parámetros incorrectos en constructores largos.
 2. **Código Más Limpio**: Métodos como `.precio(20.5)` son autoexplicativos.
 3. **Validaciones Centralizadas**: Reglas de negocio en un solo lugar (`build()`).
+
+![image](https://github.com/user-attachments/assets/689f97bd-3e87-4397-bd79-daa72c9019d2)
+![image](https://github.com/user-attachments/assets/a9ab2504-bc9f-42d4-9fdd-84ba5e418d9c)
+
 
 ## UML
 ![Editor _ Mermaid Chart-2025-04-03-020625](https://github.com/user-attachments/assets/83972e1d-460c-435c-b946-904c2a4c9526)
@@ -910,6 +917,8 @@ javaCopiarpublic class NotificacionChain {
         chain.handleRequest(destinatario, asunto, contenido, archivo);
     }
 }
+![image](https://github.com/user-attachments/assets/69f3e3c6-8568-4635-96ed-b1fa1992ef18)
+
 3. Modificaciones en Cobro.java
 
 Se eliminó la inyección directa de ServicioEnvio.
