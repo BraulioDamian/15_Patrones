@@ -947,7 +947,7 @@ El patrón Mediador resuelve estos problemas centralizando la comunicación entr
 
 ## Estructura del Patrón
 
-![Diagrama de clases](./mediator.png)
+![Diagrama de clases](https://raw.githubusercontent.com/BraulioDamian/15_Patrones/refs/heads/main/src/main/java/Mediator/mediator.png?token=GHSAT0AAAAAADD6O3YNN65ZMQ5X7X6KVVO62BQRF3A)
 
 ## Ventajas
 
