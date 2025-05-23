@@ -638,6 +638,8 @@ Se muestra como:
 
 ![Diagrama UML del Patrón Observer](./src/main/java/VentaObserver/Evidencia.png)
 
+Se agregó una interfaz como monitor de LOG, para poder visualizar todos los cambios o todo el comportamiento del Observer
+
 ![Diagrama UML del Patrón Observer](./src/main/java/VentaObserver/Evidencia2.png)
 
 
